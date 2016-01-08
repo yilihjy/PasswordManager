@@ -21,6 +21,7 @@ import com.hanyao.passwordmanager.R;
 import com.hanyao.passwordmanager.bean.Password;
 import com.hanyao.passwordmanager.bean.PasswordList;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -102,7 +103,7 @@ public static MainActivity instance=null;
         TextView textView = (TextView)findViewById(R.id.no_password_tip);
         textView.setVisibility(View.GONE);
         ListView listView = (ListView)findViewById(R.id.main_list_view);
-        PasswordPresenter passwordPresenter = new PasswordPresenter();
+        final PasswordPresenter passwordPresenter = new PasswordPresenter();
         Map<String[],Password> map =  passwordPresenter.getPassword();
         if(map==null){
             textView.setVisibility(View.VISIBLE);
@@ -117,6 +118,7 @@ public static MainActivity instance=null;
             passwordList.setPassword(entry.getValue());
             passwordListList.add(passwordList);
         }
+        Collections.sort(passwordListList);
         PasswordListAdapter passwordListAdapter = new PasswordListAdapter(MainActivity.this,R.layout.password_list_layout,passwordListList);
         listView.setAdapter(passwordListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -125,6 +127,7 @@ public static MainActivity instance=null;
                 PasswordList passwordList = passwordListList.get(position);
                 Intent intent = new Intent(MainActivity.this, DisplayPasswordActivity.class);
                 intent.putExtra("password", passwordList.getPassword());
+                passwordPresenter.addSee(passwordList.getPassword());
                 startActivity(intent);
             }
         });

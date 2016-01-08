@@ -55,6 +55,7 @@ public class PasswordPresenter {
             password.setAnswer3((AESUtil.encrypt(servant,answer3)));
         }
         password.setVersion(1);
+        password.setSee(0);
         password.setTime(new Date(System.currentTimeMillis()));
         password.setEffective(1);
         PasswordDb passwordDb = new PasswordDb();
@@ -87,19 +88,19 @@ public class PasswordPresenter {
         oldPassword.setLoginName(AESUtil.encrypt(servant, loginName));
         oldPassword.setLoginPassword(AESUtil.encrypt(servant,loginPassword));
         if(question1!=null){
-            oldPassword.setQuestion1(AESUtil.encrypt(servant,question1));
+            oldPassword.setQuestion1(AESUtil.encrypt(servant, question1));
         }
         if(question2!=null){
-            oldPassword.setQuestion2(AESUtil.encrypt(servant,question2));
+            oldPassword.setQuestion2(AESUtil.encrypt(servant, question2));
         }
         if(question3!=null){
-            oldPassword.setQuestion3(AESUtil.encrypt(servant,question3));
+            oldPassword.setQuestion3(AESUtil.encrypt(servant, question3));
         }
         if(answer1!=null){
-            oldPassword.setAnswer1((AESUtil.encrypt(servant,answer1)));
+            oldPassword.setAnswer1((AESUtil.encrypt(servant, answer1)));
         }
         if(answer2!=null){
-            oldPassword.setAnswer2((AESUtil.encrypt(servant,answer2)));
+            oldPassword.setAnswer2((AESUtil.encrypt(servant, answer2)));
         }
         if(answer3!=null){
             oldPassword.setAnswer3((AESUtil.encrypt(servant,answer3)));
@@ -243,11 +244,17 @@ public class PasswordPresenter {
         String loginPassword=AESUtil.decrypt(MyApplication.curse(),password.getLoginPassword());
         String question1=AESUtil.decrypt(MyApplication.curse(),password.getQuestion1());
         String answer1=AESUtil.decrypt(MyApplication.curse(),password.getAnswer1());
-        String question2=AESUtil.decrypt(MyApplication.curse(),password.getQuestion2());
+        String question2=AESUtil.decrypt(MyApplication.curse(), password.getQuestion2());
         String answer2=AESUtil.decrypt(MyApplication.curse(),password.getAnswer2());
         String question3=AESUtil.decrypt(MyApplication.curse(),password.getQuestion3());
         String answer3=AESUtil.decrypt(MyApplication.curse(),password.getAnswer3());
         return new String[]{loginSite,loginUserName,loginPassword,question1,answer1,question2,answer2,question3,answer3};
+    }
+
+    public void addSee(Password password){
+        password.setSee(password.getSee()+1);
+        PasswordDb passwordDb = new PasswordDb();
+        passwordDb.update(password);
     }
 
 }

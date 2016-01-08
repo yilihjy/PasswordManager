@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.hanyao.passwordmanager.MyApplication;
+import com.hanyao.passwordmanager.Presenter.PasswordPresenter;
 import com.hanyao.passwordmanager.R;
 import com.hanyao.passwordmanager.bean.PasswordList;
 import java.util.List;
@@ -49,6 +50,8 @@ public class PasswordListAdapter extends ArrayAdapter<PasswordList> {
                 ClipboardManager clipboardManager = (ClipboardManager) MyApplication.getContext().getSystemService(MyApplication.getContext().CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText("password", passwordList.getPasswordString());
                 clipboardManager.setPrimaryClip(clipData);
+                PasswordPresenter passwordPresenter = new PasswordPresenter();
+                passwordPresenter.addSee(passwordList.getPassword());
                 Toast.makeText(MyApplication.getContext(),"密码已复制到剪贴板",Toast.LENGTH_SHORT).show();
             }
         });

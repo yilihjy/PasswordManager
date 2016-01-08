@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by HanYao-Huang on 2016/1/1.
  */
-public class Password implements Serializable{
+public class Password implements Serializable,Comparable<Password>{
     private int id;
     private String loginSite;
     private String loginName;
@@ -20,6 +20,7 @@ public class Password implements Serializable{
     private String answer2;
     private String question3;
     private String answer3;
+    private int see;
 
     public void setId(int id){
         this.id=id;
@@ -113,5 +114,21 @@ public class Password implements Serializable{
         return answer3;
     }
 
+    public void setSee(int see){
+        this.see=see;
+    }
+    public int getSee(){
+        return see;
+    }
 
+    @Override
+    public int compareTo(Password another) {
+        if(this.getSee()>another.getSee()){
+            return -1;
+        }else if(this.getSee()<another.getSee()){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 }

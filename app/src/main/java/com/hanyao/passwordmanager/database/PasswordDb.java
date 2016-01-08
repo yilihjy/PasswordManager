@@ -39,6 +39,7 @@ public class PasswordDb {
         values.put("answer2",password.getAnswer2());
         values.put("question3",password.getQuestion3());
         values.put("answer3",password.getAnswer3());
+        values.put("see",password.getSee());
         int id= (int)db.insert("Password", null, values);
         if (id!=-1){
             return id;
@@ -71,8 +72,9 @@ public class PasswordDb {
                     password.setAnswer1(cursor.getString(cursor.getColumnIndex("answer1")));
                     password.setQuestion2(cursor.getString(cursor.getColumnIndex("question2")));
                     password.setAnswer2(cursor.getString(cursor.getColumnIndex("answer2")));
-                    password.setQuestion3(cursor.getString(cursor.getColumnIndex("question2")));
+                    password.setQuestion3(cursor.getString(cursor.getColumnIndex("question3")));
                     password.setAnswer3(cursor.getString(cursor.getColumnIndex("answer3")));
+                    password.setSee(cursor.getInt(cursor.getColumnIndex("see")));
                     passwordList.add(password);
                 }while (cursor.moveToNext());
             }
@@ -94,8 +96,9 @@ public class PasswordDb {
                     password.setAnswer1(cursor.getString(cursor.getColumnIndex("answer1")));
                     password.setQuestion2(cursor.getString(cursor.getColumnIndex("question2")));
                     password.setAnswer2(cursor.getString(cursor.getColumnIndex("answer2")));
-                    password.setQuestion3(cursor.getString(cursor.getColumnIndex("question2")));
+                    password.setQuestion3(cursor.getString(cursor.getColumnIndex("question3")));
                     password.setAnswer3(cursor.getString(cursor.getColumnIndex("answer3")));
+                    password.setSee(cursor.getInt(cursor.getColumnIndex("see")));
                     passwordList.add(password);
                 }while (cursor.moveToNext());
             }
@@ -122,6 +125,7 @@ public class PasswordDb {
         values.put("answer2", password.getAnswer2());
         values.put("question3", password.getQuestion3());
         values.put("answer3",password.getAnswer3());
+        values.put("see",password.getSee());
         int flag=db.update("Password", values, "id = ?", new String[]{password.getId() + ""});
         return flag;
     }
@@ -147,7 +151,8 @@ public class PasswordDb {
         password.setAnswer1(cursor.getString(cursor.getColumnIndex("answer1")));
         password.setQuestion2(cursor.getString(cursor.getColumnIndex("question2")));
         password.setAnswer2(cursor.getString(cursor.getColumnIndex("answer2")));
-        password.setQuestion3(cursor.getString(cursor.getColumnIndex("question2")));
+        password.setQuestion3(cursor.getString(cursor.getColumnIndex("question3")));
+            password.setSee(cursor.getInt(cursor.getColumnIndex("see")));
         password.setAnswer3(cursor.getString(cursor.getColumnIndex("answer3")));return password;}else{
             return null;
         }

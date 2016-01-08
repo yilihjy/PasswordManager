@@ -3,7 +3,7 @@ package com.hanyao.passwordmanager.bean;
 /**
  * Created by HanYao-Huang on 2016/1/4.
  */
-public class PasswordList {
+public class PasswordList implements Comparable<PasswordList>{
     private String site;
     private  String loginName;
     private String passwordString;
@@ -35,5 +35,10 @@ public class PasswordList {
     }
     public String getPasswordString(){
         return passwordString;
+    }
+
+    @Override
+    public int compareTo(PasswordList another) {
+        return this.password.compareTo(another.password);
     }
 }

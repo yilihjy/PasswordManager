@@ -31,7 +31,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "question2 text," +
             "answer2 text," +
             "question3 text," +
-            "answer3 text)";
+            "answer3 text," +
+            "see integer)";
 
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
