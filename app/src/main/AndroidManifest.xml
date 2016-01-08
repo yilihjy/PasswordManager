@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hanyao.passwordmanager">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <application
+        android:name="com.hanyao.passwordmanager.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.hanyao.passwordmanager.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hanyao.passwordmanager.activity.CheckPowerActivity"
+             />
+        <activity
+            android:name="com.hanyao.passwordmanager.activity.LocalUserRegistActivity"
+           />
+        <activity android:name="com.hanyao.passwordmanager.activity.AddPasswordActivity" />
+        <activity android:name="com.hanyao.passwordmanager.activity.DisplayPasswordActivity" />
+        <activity android:name="com.hanyao.passwordmanager.activity.AutoPasswordActivity" />
+        <activity android:name="com.hanyao.passwordmanager.activity.ModifyPasswordActivity" />
+        <activity android:name="com.hanyao.passwordmanager.activity.AutoModifyPasswordActivity" />
+        <activity android:name="com.hanyao.passwordmanager.activity.ChangePasswordActivity" />
+        <activity android:name="com.hanyao.passwordmanager.activity.ShowInformationActivity"></activity>
+    </application>
+
+</manifest>

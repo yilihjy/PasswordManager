@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">密码管家</string>
+    <string name="search">搜索</string>
+    <string name="setting">设置</string>
+    <string name="exit">退出应用</string>
+    <string name="add">添加</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="title_activity_local_user_regist">LocalUserRegist</string>
+
+
+    <string name="welcome">欢迎</string>
+    <string name="regist_password_lb">设置根密码，8位数字或字母</string>
+    <string name="repeat_regist_password_lb">重复根密码</string>
+    <string name="regist_button">开启密码管理之旅</string>
+    <string name="regist_tip">注意：请牢记您在这里设置的根密码。忘记根密码将无法使用本应用。</string>
+    <string name="title_activity_check_power">CheckPower</string>
+    <string name="welcome_check">请输入根密码</string>
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
+    <string name="add_button">添加</string>
+    <string name="change_root_password">修改根密码</string>
+
+    <string name="login_site">登录网站或应用名(必填)</string>
+    <string name="login_user_name">登录名(必填)</string>
+    <string name="login_password">登录密码(必填)</string>
+    <string name="question2">密保问题2（选填）</string>
+    <string name="answer2">密保问题2答案（选填）</string>
+    <string name="question3">密保问题3（选填）</string>
+    <string name="answer3">密保问题3答案（选填）</string>
+    <string name="question1">密保问题1（选填）</string>
+    <string name="answer1">密保问题1答案（选填）</string>
+    <string name="copy_button">复制密码</string>
+    <string name="modify_button">修改密码</string>
+    <string name="delete_button">删除密码</string>
+    <string name="no_password_tip"> 还没有被保存密码，点击右上角的加号添加一个吧！</string>
+
+    <string name="copy_password">复制密码</string>
+    <string name="site">应用或站点</string>
+<string name="login_name">登录名</string>
+    <string name="password">密码</string>
+    <string name="show_question">显示密保问题</string>
+    <string name="hint_qusetion">隐藏密保问题</string>
+
+    <string name="question1_show">密保问题1</string>
+    <string name="question2_show">密保问题2</string>
+    <string name="question3_show">密保问题3</string>
+    <string name="answer">答案</string>
+
+    <string name="about"><h1>关于本应用</h1><p>本应用为应用开发者自用软件，旨在方便多帐号密码管理。</p><p>本应用不提供联网功能，开发者无法了解到您保存在本应用的一切信息。请牢记根密码，忘记跟密码您也会无法查看您保存在本应用上的一切信息</p><p>本应用不对使用者密码的安全性做出任何承诺</p><p>若使用者使用本应用产生损失，由使用者自行承担</p></string>
+    <string name="use_method"><h1>普通模式</h1><p>普通模式将保存您自行设置的密码，适用于保存你已经拥有的账号和密码</p><h1>随机密码模式</h1><p>随机密码模式中你将不需要自己设置密码，应用会根据您的要求随机生成一个强密码。适合你新账号的密码设置和修改以前账号密码时的设置。注意，请保持本应用和您实际使用的密码的一致性。</p></string>
+
+</resources>
