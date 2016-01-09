@@ -117,7 +117,7 @@ public class ModifyPasswordActivity extends BaseActivity {
                     PasswordPresenter passwordPresenter = new PasswordPresenter();
                     try {
                         LogUtil.d("执行", "执行3");
-                        newPassword = passwordPresenter.modifyPassword(password, loginUserName, loginSite, loginPassword, Question1, Answer1, Question2, Answer2, Question3, Answer3);
+                        newPassword = passwordPresenter.modifyPassword(password,  loginSite,loginUserName, loginPassword, Question1, Answer1, Question2, Answer2, Question3, Answer3);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(ModifyPasswordActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
@@ -144,7 +144,7 @@ public class ModifyPasswordActivity extends BaseActivity {
     }
 
     private void setHint(){
-        loginSiteTIL.setHint(this.getString(R.string.login_user_name));
+        loginSiteTIL.setHint(this.getString(R.string.login_site));
         loginUserNameTIL.setHint(this.getString(R.string.login_user_name));
         loginPasswordTIL.setHint(this.getString(R.string.login_password));
         Question1TIL.setHint(this.getString(R.string.question1));
