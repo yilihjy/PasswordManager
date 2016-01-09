@@ -1,11 +1,22 @@
 package com.hanyao.passwordmanager.Presenter;
 
+import android.os.Environment;
+
 import com.hanyao.passwordmanager.bean.Password;
 import com.hanyao.passwordmanager.database.PasswordDb;
+import com.hanyao.passwordmanager.util.FileUtil;
+import com.hanyao.passwordmanager.util.LogUtil;
 import com.hanyao.passwordmanager.util.SHA256Util;
 import com.hanyao.passwordmanager.MyApplication;
 import com.hanyao.passwordmanager.util.AESUtil;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +27,7 @@ import java.util.Map;
  * Created by HanYao-Huang on 2016/1/1.
  */
 public class PasswordPresenter {
+    private PasswordDb passwordDb = new PasswordDb();
     /**
      * 添加密码信息
      * @param loginName 登录名
@@ -40,25 +52,25 @@ public class PasswordPresenter {
             password.setQuestion1(AESUtil.encrypt(servant,question1));
         }
         if(question2!=null){
-            password.setQuestion2(AESUtil.encrypt(servant,question2));
+            password.setQuestion2(AESUtil.encrypt(servant, question2));
         }
         if(question3!=null){
-            password.setQuestion3(AESUtil.encrypt(servant,question3));
+            password.setQuestion3(AESUtil.encrypt(servant, question3));
         }
         if(answer1!=null){
-            password.setAnswer1((AESUtil.encrypt(servant,answer1)));
+            password.setAnswer1((AESUtil.encrypt(servant, answer1)));
         }
         if(answer2!=null){
-            password.setAnswer2((AESUtil.encrypt(servant,answer2)));
+            password.setAnswer2((AESUtil.encrypt(servant, answer2)));
         }
         if(answer3!=null){
-            password.setAnswer3((AESUtil.encrypt(servant,answer3)));
+            password.setAnswer3((AESUtil.encrypt(servant, answer3)));
         }
         password.setVersion(1);
         password.setSee(0);
         password.setTime(new Date(System.currentTimeMillis()));
         password.setEffective(1);
-        PasswordDb passwordDb = new PasswordDb();
+       // PasswordDb passwordDb = new PasswordDb();
         int id=passwordDb.save(password);
         if(id!=-1){
             return passwordDb.getById(id);
@@ -107,7 +119,7 @@ public class PasswordPresenter {
         }
         oldPassword.setVersion(oldPassword.getVersion() + 1);
         oldPassword.setTime(new Date(System.currentTimeMillis()));
-        PasswordDb passwordDb = new PasswordDb();
+        //PasswordDb passwordDb = new PasswordDb();
         int flag=passwordDb.update(oldPassword);
         if(flag==0){
             return null;
@@ -116,7 +128,7 @@ public class PasswordPresenter {
     }
     public boolean deletePassword(Password password){
         password.setEffective(0);
-        PasswordDb passwordDb = new PasswordDb();
+        //PasswordDb passwordDb = new PasswordDb();
         int flag=passwordDb.update(password);
         if(flag==0){
             return false;
@@ -129,7 +141,7 @@ public class PasswordPresenter {
      * @return key为String数组，0位置为登录站点，1位置为登录名，2位置为登录密码；value为password对象
      */
     public Map<String[],Password> getPassword(){
-        PasswordDb passwordDb = new PasswordDb();
+        //PasswordDb passwordDb = new PasswordDb();
         List<Password> passwordList =null;
         try {
             passwordList=passwordDb.get(true);
@@ -159,7 +171,7 @@ public class PasswordPresenter {
      * @return key为String数组，0位置为登录站点，1位置为登录名；value为password对象
      */
     public Map<String[],Password> seeDeletedPassword(){
-        PasswordDb passwordDb = new PasswordDb();
+        //PasswordDb passwordDb = new PasswordDb();
         List<Password> passwordList =null;
         try {
             passwordList=passwordDb.get(false);
@@ -251,10 +263,137 @@ public class PasswordPresenter {
         return new String[]{loginSite,loginUserName,loginPassword,question1,answer1,question2,answer2,question3,answer3};
     }
 
+    /**
+     * 增加密码信息热度
+     * @param password
+     */
     public void addSee(Password password){
         password.setSee(password.getSee()+1);
-        PasswordDb passwordDb = new PasswordDb();
+       // PasswordDb passwordDb = new PasswordDb();
         passwordDb.update(password);
+    }
+
+    /**
+     *导出数据
+     * @return
+     */
+    public  boolean outputPasswords() throws Exception {
+        Map<String[],Password> maps = getPassword();
+        String output = "<Passwords version=\"1.0\">";
+        for (Map.Entry<String[],Password> map:maps.entrySet()) {
+            output=output+"<Password>";
+            output=output+"<Site>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getLoginSite());
+            output=output+"</Site>";
+            output=output+"<LoginName>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getLoginName());
+            output=output+"</LoginName>";
+            output=output+"<LoginPassword>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getLoginPassword());
+            output=output+"</LoginPassword>";
+            output=output+"<Question1>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getQuestion1());
+            output=output+"</Question1>";
+            output=output+"<Answer1>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getAnswer1());
+            output=output+"</Answer1>";
+            output=output+"<Question2>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getQuestion2());
+            output=output+"</Question2>";
+            output=output+"<Answer2>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getAnswer2());
+            output=output+"</Answer2>";
+            output=output+"<Question3>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getQuestion3());
+            output=output+"</Question3>";
+            output=output+"<Answer3>";
+            output=output+AESUtil.decrypt(MyApplication.curse(),map.getValue().getAnswer3());
+            output=output+"</Answer3>";
+            output=output+"</Password>";
+        }
+        output = output+"</Passwords>";
+        if (android.os.Build.VERSION.SDK_INT ==  19){
+            FileUtil.saveFile("passwords.xml", output);
+            return true;
+        }else{
+            String path = Environment.getExternalStorageDirectory().getPath();
+            FileUtil.saveFile(path,"passwords.xml", output);
+            return true;
+        }
+
+    }
+
+    /**
+     *导入数据
+     * @param type 0覆盖导入，1插入导入
+     * @return
+     */
+    public boolean inputPassword(int type) throws Exception {
+        String path=Environment.getExternalStorageDirectory().getPath()+"/passwords.xml";
+        File file = new File(path);
+        if(file.exists()){
+            passwordDb.beginTran();
+            switch (type){
+                case 0:{
+                    Map<String[],Password> maps = getPassword();
+                    for (Map.Entry<String[],Password> map:maps.entrySet()){
+                        deletePassword(map.getValue());
+                    }
+                }
+                case 1:{
+                    XmlPullParserFactory factory =XmlPullParserFactory.newInstance();
+                    XmlPullParser xmlPullParser = factory.newPullParser();
+                    xmlPullParser.setInput(new StringReader(FileUtil.readFileByPath(path)));
+                    int eventType=xmlPullParser.getEventType();
+                    String site="";
+                    String loginName="";
+                    String loginPassword="";
+                    String question1="";
+                    String answer1="";
+                    String question2="";
+                    String answer2="";
+                    String question3="";
+                    String answer3="";
+                    while (eventType!=XmlPullParser.END_DOCUMENT){
+                        String nodeName =xmlPullParser.getName();
+                        switch (eventType){
+                            case XmlPullParser.START_TAG:{
+                                if("Site".equals(nodeName)){
+                                    site=xmlPullParser.nextText();
+                                }else if("LoginName".equals(nodeName)){
+                                    loginName=xmlPullParser.nextText();
+                                }else  if ("LoginPassword".equals(nodeName)){
+                                    loginPassword=xmlPullParser.nextText();
+                                }else if("Question1".equals(nodeName)){
+                                    question1=xmlPullParser.nextText();
+                                }else if("Answer1".equals(nodeName)){
+                                    answer1=xmlPullParser.nextText();
+                                }else if("Question2".equals(nodeName)){
+                                    question2=xmlPullParser.nextText();
+                                }else if("Answer2".equals(nodeName)){
+                                    answer2=xmlPullParser.nextText();
+                                }else if("Question3".equals(nodeName)){
+                                    question3=xmlPullParser.nextText();
+                                }else if("Answer3".equals(nodeName)){
+                                    answer3=xmlPullParser.nextText();
+                                }break;
+                            }
+                            case XmlPullParser.END_TAG:{
+                                if("Password".equals(nodeName)){
+                                    addNewPassword(loginName, site, loginPassword, question1, answer1, question2, answer2, question3, answer3);
+                                }break;
+                            }default:break;
+                        }eventType=xmlPullParser.next();
+                    }
+                }
+                    break;
+            }
+            passwordDb.comitTran();
+            passwordDb.endTran();
+            return true;
+        }else {
+            return false;
+        }
     }
 
 }

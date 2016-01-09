@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hanyao.passwordmanager.Presenter.PasswordPresenter;
@@ -170,7 +171,7 @@ public class AutoModifyPasswordActivity extends BaseActivity {
                     }
                     PasswordPresenter passwordPresenter = new PasswordPresenter();
                     try {
-                        newPassword= passwordPresenter.modifyPassword(password, loginUserName, loginSite, passwordPresenter.createPassword(number, distinguishUpperOrLower, firstWord, supportUnderline, MyApplication.curse()), Question1, Answer1, Question2, Answer2, Question3, Answer3);
+                        newPassword = passwordPresenter.modifyPassword(password, loginUserName, loginSite, passwordPresenter.createPassword(number, distinguishUpperOrLower, firstWord, supportUnderline, MyApplication.curse()), Question1, Answer1, Question2, Answer2, Question3, Answer3);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(AutoModifyPasswordActivity.this, "添加失败", Toast.LENGTH_SHORT).show();
@@ -179,6 +180,21 @@ public class AutoModifyPasswordActivity extends BaseActivity {
                 }
                 DisplayPasswordActivity.instance.finish();//关闭前一个活动
                 finish();
+            }
+        });
+
+        final TextView addQuestion = (TextView)findViewById(R.id.add_password_question);
+        addQuestion.setText("添加密保问题");
+        addQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Question1TIL.setVisibility(View.VISIBLE);
+                Answer1TIL.setVisibility(View.VISIBLE);
+                Question2TIL.setVisibility(View.VISIBLE);
+                Answer2TIL.setVisibility(View.VISIBLE);
+                Question3TIL.setVisibility(View.VISIBLE);
+                Answer3TIL.setVisibility(View.VISIBLE);
+                addQuestion.setVisibility(View.GONE);
             }
         });
     }

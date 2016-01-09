@@ -37,7 +37,7 @@
 
     <string name="copy_password">复制密码</string>
     <string name="site">应用或站点</string>
-<string name="login_name">登录名</string>
+    <string name="login_name">登录名</string>
     <string name="password">密码</string>
     <string name="show_question">显示密保问题</string>
     <string name="hint_qusetion">隐藏密保问题</string>

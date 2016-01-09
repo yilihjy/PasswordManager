@@ -75,6 +75,44 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"/>
                 <TextView
+                    android:id="@+id/output_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textSize="30sp"
+                    android:gravity="center|left"
+                    android:text="导出密码"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:src="@android:drawable/ic_menu_help"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/input_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textSize="30sp"
+                    android:gravity="center|left"
+                    android:text="导入密码"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:src="@android:drawable/ic_menu_help"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"/>
+                <TextView
                     android:id="@+id/help_item"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

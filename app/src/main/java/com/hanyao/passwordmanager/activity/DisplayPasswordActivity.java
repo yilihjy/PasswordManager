@@ -101,7 +101,7 @@ public class DisplayPasswordActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(DisplayPasswordActivity.this);
                     dialog.setTitle("请选择模式");
-                    dialog.setItems(new String[]{"普通模式", "随机密码模式"}, new DialogInterface.OnClickListener() {
+                    dialog.setItems(new String[]{"正常密码保存模式", "随机密码生成模式"}, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {

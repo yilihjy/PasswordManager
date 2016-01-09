@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hanyao.passwordmanager.Presenter.PasswordPresenter;
@@ -78,8 +79,8 @@ public class AutoPasswordActivity extends BaseActivity {
                     firstWord = 0;
                 } else if (checkedId == needEnglish.getId()) {
                     firstWord = 1;
-                }else  if(checkedId == needNumber.getId()){
-                    firstWord=2;
+                } else if (checkedId == needNumber.getId()) {
+                    firstWord = 2;
                 }
             }
         });
@@ -96,8 +97,9 @@ public class AutoPasswordActivity extends BaseActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                number=Integer.valueOf(((String)spinner.getSelectedItem()));
+                number = Integer.valueOf(((String) spinner.getSelectedItem()));
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -112,7 +114,7 @@ public class AutoPasswordActivity extends BaseActivity {
                 } else if (TextUtils.isEmpty(loginUserNameTIL.getEditText().getText())) {
                     Toast.makeText(AutoPasswordActivity.this, "登录名不能为空", Toast.LENGTH_SHORT).show();
                     return;
-                }  else {
+                } else {
                     String loginSite = loginSiteTIL.getEditText().getText().toString();
                     String loginUserName = loginUserNameTIL.getEditText().getText().toString();
                     String Question1;
@@ -153,13 +155,28 @@ public class AutoPasswordActivity extends BaseActivity {
                     }
                     PasswordPresenter passwordPresenter = new PasswordPresenter();
                     try {
-                        password = passwordPresenter.addNewPassword(loginUserName, loginSite, passwordPresenter.createPassword(number,distinguishUpperOrLower,firstWord,supportUnderline, MyApplication.curse()), Question1, Answer1, Question2, Answer2, Question3, Answer3);
+                        password = passwordPresenter.addNewPassword(loginUserName, loginSite, passwordPresenter.createPassword(number, distinguishUpperOrLower, firstWord, supportUnderline, MyApplication.curse()), Question1, Answer1, Question2, Answer2, Question3, Answer3);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(AutoPasswordActivity.this, "添加失败", Toast.LENGTH_SHORT).show();
                     }
                 }
                 finish();
+            }
+        });
+
+        final TextView addQuestion = (TextView)findViewById(R.id.add_password_question);
+        addQuestion.setText("添加密保问题");
+        addQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Question1TIL.setVisibility(View.VISIBLE);
+                Answer1TIL.setVisibility(View.VISIBLE);
+                Question2TIL.setVisibility(View.VISIBLE);
+                Answer2TIL.setVisibility(View.VISIBLE);
+                Question3TIL.setVisibility(View.VISIBLE);
+                Answer3TIL.setVisibility(View.VISIBLE);
+                addQuestion.setVisibility(View.GONE);
             }
         });
     }

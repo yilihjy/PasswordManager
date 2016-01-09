@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hanyao.passwordmanager.Presenter.PasswordPresenter;
@@ -46,65 +47,79 @@ public class AddPasswordActivity extends BaseActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(loginSiteTIL.getEditText().getText())){
-                    Toast.makeText(AddPasswordActivity.this,"登录网站或应用不能为空",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(loginSiteTIL.getEditText().getText())) {
+                    Toast.makeText(AddPasswordActivity.this, "登录网站或应用不能为空", Toast.LENGTH_SHORT).show();
                     return;
-                }else if(TextUtils.isEmpty(loginUserNameTIL.getEditText().getText())){
-                    Toast.makeText(AddPasswordActivity.this,"登录名不能为空",Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(loginUserNameTIL.getEditText().getText())) {
+                    Toast.makeText(AddPasswordActivity.this, "登录名不能为空", Toast.LENGTH_SHORT).show();
                     return;
-                }else if(TextUtils.isEmpty(loginPasswordTIL.getEditText().getText())){
-                    Toast.makeText(AddPasswordActivity.this,"登录密码",Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(loginPasswordTIL.getEditText().getText())) {
+                    Toast.makeText(AddPasswordActivity.this, "登录密码", Toast.LENGTH_SHORT).show();
                     return;
-                }else{
+                } else {
                     String loginSite = loginSiteTIL.getEditText().getText().toString();
-                    String loginUserName =loginUserNameTIL.getEditText().getText().toString();
-                    String loginPassword= loginPasswordTIL.getEditText().getText().toString();
-                    String  Question1;
-                    if(TextUtils.isEmpty(Question1TIL.getEditText().getText())){
-                        Question1="未设置";
-                    }else{
-                         Question1= Question1TIL.getEditText().getText().toString();
+                    String loginUserName = loginUserNameTIL.getEditText().getText().toString();
+                    String loginPassword = loginPasswordTIL.getEditText().getText().toString();
+                    String Question1;
+                    if (TextUtils.isEmpty(Question1TIL.getEditText().getText())) {
+                        Question1 = "未设置";
+                    } else {
+                        Question1 = Question1TIL.getEditText().getText().toString();
                     }
                     String Answer1;
-                    if(TextUtils.isEmpty(Answer1TIL.getEditText().getText())){
-                        Answer1="未设置";
-                    }else{
-                        Answer1= Answer1TIL.getEditText().getText().toString();
+                    if (TextUtils.isEmpty(Answer1TIL.getEditText().getText())) {
+                        Answer1 = "未设置";
+                    } else {
+                        Answer1 = Answer1TIL.getEditText().getText().toString();
                     }
-                    String  Question2;
-                    if(TextUtils.isEmpty(Question2TIL.getEditText().getText())){
-                        Question2="未设置";
-                    }else{
-                        Question2= Question2TIL.getEditText().getText().toString();
+                    String Question2;
+                    if (TextUtils.isEmpty(Question2TIL.getEditText().getText())) {
+                        Question2 = "未设置";
+                    } else {
+                        Question2 = Question2TIL.getEditText().getText().toString();
                     }
                     String Answer2;
-                    if(TextUtils.isEmpty(Answer2TIL.getEditText().getText())){
-                        Answer2="未设置";
-                    }else{
-                        Answer2= Answer2TIL.getEditText().getText().toString();
+                    if (TextUtils.isEmpty(Answer2TIL.getEditText().getText())) {
+                        Answer2 = "未设置";
+                    } else {
+                        Answer2 = Answer2TIL.getEditText().getText().toString();
                     }
-                    String  Question3;
-                    if(TextUtils.isEmpty(Question3TIL.getEditText().getText())){
-                        Question3="未设置";
-                    }else{
-                        Question3= Question3TIL.getEditText().getText().toString();
+                    String Question3;
+                    if (TextUtils.isEmpty(Question3TIL.getEditText().getText())) {
+                        Question3 = "未设置";
+                    } else {
+                        Question3 = Question3TIL.getEditText().getText().toString();
                     }
                     String Answer3;
-                    if(TextUtils.isEmpty(Answer3TIL.getEditText().getText())){
-                        Answer3="未设置";
-                    }else{
-                        Answer3= Answer3TIL.getEditText().getText().toString();
+                    if (TextUtils.isEmpty(Answer3TIL.getEditText().getText())) {
+                        Answer3 = "未设置";
+                    } else {
+                        Answer3 = Answer3TIL.getEditText().getText().toString();
                     }
                     PasswordPresenter passwordPresenter = new PasswordPresenter();
                     try {
                         //添加一条密码信息
-                        password= passwordPresenter.addNewPassword(loginUserName,loginSite,loginPassword,Question1,Answer1,Question2,Answer2,Question3,Answer3);
+                        password = passwordPresenter.addNewPassword(loginUserName, loginSite, loginPassword, Question1, Answer1, Question2, Answer2, Question3, Answer3);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(AddPasswordActivity.this,"添加失败",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddPasswordActivity.this, "添加失败", Toast.LENGTH_SHORT).show();
                     }
                 }
                 finish();
+            }
+        });
+        final TextView addQuestion = (TextView)findViewById(R.id.add_password_question);
+        addQuestion.setText("添加密保问题");
+        addQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Question1TIL.setVisibility(View.VISIBLE);
+                Answer1TIL.setVisibility(View.VISIBLE);
+                Question2TIL.setVisibility(View.VISIBLE);
+                Answer2TIL.setVisibility(View.VISIBLE);
+                Question3TIL.setVisibility(View.VISIBLE);
+                Answer3TIL.setVisibility(View.VISIBLE);
+                addQuestion.setVisibility(View.GONE);
             }
         });
     }

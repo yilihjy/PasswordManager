@@ -3,6 +3,8 @@ package com.hanyao.passwordmanager.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
@@ -13,13 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hanyao.passwordmanager.Adapter.PasswordListAdapter;
 import com.hanyao.passwordmanager.Presenter.PasswordPresenter;
 import com.hanyao.passwordmanager.R;
 import com.hanyao.passwordmanager.bean.Password;
 import com.hanyao.passwordmanager.bean.PasswordList;
+import com.hanyao.passwordmanager.util.FileUtil;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,9 +77,12 @@ public static MainActivity instance=null;
             startActivity(intent);
         }
 
+        //菜单选项
         TextView change = (TextView)findViewById(R.id.change_password_item);
         TextView help = (TextView)findViewById(R.id.help_item);
         TextView about = (TextView)findViewById(R.id.about_item);
+        TextView input =(TextView)findViewById(R.id.input_item);
+        TextView output = (TextView)findViewById(R.id.output_item);
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +93,7 @@ public static MainActivity instance=null;
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowInformationActivity.actionShowInformationActivity(MainActivity.this, "<h1>普通模式</h1><p>普通模式将保存您自行设置的密码，适用于保存你已经拥有的账号和密码</p><h1>随机密码模式</h1><p>随机密码模式中你将不需要自己设置密码，应用会根据您的要求随机生成一个强密码。适合你新账号的密码设置和修改以前账号密码时的设置。注意，请保持本应用和您实际使用的密码的一致性。</p>");
+                ShowInformationActivity.actionShowInformationActivity(MainActivity.this, "<h1>正常密码保存模式</h1><p>普通模式将保存您自行设置的密码，适用于保存你已经拥有的账号和密码</p><h1>随机密码生成模式</h1><p>随机密码模式中你将不需要自己设置密码，应用会根据您的要求随机生成一个强密码。适合你新账号的密码设置和修改以前账号密码时的设置。注意，请保持本应用和您实际使用的密码的一致性。</p>");
 
             }
         });
@@ -93,6 +102,35 @@ public static MainActivity instance=null;
             public void onClick(View v) {
                 ShowInformationActivity.actionShowInformationActivity(MainActivity.this,"<h1>关于本应用</h1><p>本应用为应用开发者自用软件，旨在方便多帐号密码管理。</p><p>本应用不提供联网功能，开发者无法了解到您保存在本应用的一切信息。请牢记根密码，忘记跟密码您也会无法查看您保存在本应用上的一切信息</p><p>本应用不对使用者密码的安全性做出任何承诺</p><p>若使用者使用本应用产生损失，由使用者自行承担</p>");
 
+            }
+        });
+        output.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("特别提醒");
+                dialog.setMessage("导出数据将以明文保存，请确认是否导出");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new OutputTask().execute();
+                    }
+                });
+                dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.show();
+            }
+        });
+        input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(MainActivity.this,InputActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -140,7 +178,7 @@ public static MainActivity instance=null;
                 case R.id.action_add:{
                     AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
                     dialog.setTitle("请选择模式");
-                    dialog.setItems(new String[]{"普通模式", "随机密码模式"}, new DialogInterface.OnClickListener() {
+                    dialog.setItems(new String[]{"正常密码保存模式", "随机密码生成模式"}, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
@@ -169,5 +207,38 @@ public static MainActivity instance=null;
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    class OutputTask extends AsyncTask<Void,Intent,Boolean> {
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                return  new PasswordPresenter().outputPasswords();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected  void onPostExecute(Boolean result){
+            if(result){
+                if (android.os.Build.VERSION.SDK_INT ==  19){
+                    Toast.makeText(MainActivity.this, "密码信息导出成功\n保存路径："+getApplicationContext().getFilesDir().getAbsolutePath()+"/passwords.xml", Toast.LENGTH_LONG).show();
+                }else{
+                    String path = Environment.getExternalStorageDirectory().getPath();
+                    Toast.makeText(MainActivity.this, "密码信息导出成功\n保存路径："+path+"/passwords.xml", Toast.LENGTH_LONG).show();
+                }
+
+            }else{
+                Toast.makeText(MainActivity.this,"密码信息导出失败",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
