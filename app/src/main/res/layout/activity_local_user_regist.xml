@@ -98,6 +98,15 @@
                 android:textColor="@color/colorAccent"
                 android:text="@string/regist_tip"/>
 
+            <TextView
+                android:id="@+id/to_agreement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="点击阅读《使用协议》"
+                android:gravity="right"
+                android:clickable="true"
+                android:textColor="@color/colorAccent"/>
+
 
 
             <Button

@@ -13,7 +13,7 @@
     <string name="regist_password_lb">设置根密码，8位数字或字母</string>
     <string name="repeat_regist_password_lb">重复根密码</string>
     <string name="regist_button">开启密码管理之旅</string>
-    <string name="regist_tip">注意：请牢记您在这里设置的根密码。忘记根密码将无法使用本应用。</string>
+    <string name="regist_tip">注意：请牢记您在这里设置的根密码。忘记根密码将无法使用本应用。使用本应用即表示同意本应用的使用协议</string>
     <string name="title_activity_check_power">CheckPower</string>
     <string name="welcome_check">请输入根密码</string>
     <string name="ok">确认</string>
