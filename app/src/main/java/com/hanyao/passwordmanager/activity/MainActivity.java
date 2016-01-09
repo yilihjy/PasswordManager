@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,6 +84,7 @@ public static MainActivity instance=null;
         TextView about = (TextView)findViewById(R.id.about_item);
         TextView input =(TextView)findViewById(R.id.input_item);
         TextView output = (TextView)findViewById(R.id.output_item);
+        TextView agreement =(TextView)findViewById(R.id.agreement_item);
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,17 +92,48 @@ public static MainActivity instance=null;
                 startActivity(intent);
             }
         });
+        agreement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowInformationActivity.actionShowInformationActivity(MainActivity.this, "<h1>使用协议</h1>\n" +
+                        "<p>一切用户在下载并使用本应用时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本应用，或直接、间接使用本应用资料者，均被视为自愿接受本应用相关声明和使用协议的约束。</p>\n" +
+                        "<p>使用者须遵守国家法律、法规</p>\n" +
+                        "<p>本应用为应用开放者自用软件，现无偿提供给使用者使用。</p>\n" +
+                        "<p>本应用不提供连接互联网功能，也没有申请联网权限。</p>\n" +
+                        "<p>本应用对用户的密码信息安全不做任何承诺。</p>\n" +
+                        "<p>使用者明确并同意其使用本应用所存在的包括密码信息泄露在内的一切风险将完全由其使用者本人承担。</p>\n" +
+                        "<p>使用者使用本应用产生的一起后果由使用者本人承担。</p>\n" +
+                        "<p>应用开发者不承担使用本应用产生的一切责任。</p>\n" +
+                        "<p>使用者不同意本协议的，须停止使用本应用并卸载本应用。<p/>\n" +
+                        "<p>本声明未涉及的问题请参见国家有关法律法规，当本声明与国家有关法律法规冲突时，以国家法律法规为准。</p>");
+            }
+        });
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowInformationActivity.actionShowInformationActivity(MainActivity.this, "<h1>正常密码保存模式</h1><p>普通模式将保存您自行设置的密码，适用于保存你已经拥有的账号和密码</p><h1>随机密码生成模式</h1><p>随机密码模式中你将不需要自己设置密码，应用会根据您的要求随机生成一个强密码。适合你新账号的密码设置和修改以前账号密码时的设置。注意，请保持本应用和您实际使用的密码的一致性。</p>");
+                ShowInformationActivity.actionShowInformationActivity(MainActivity.this, "<h1>正常密码保存模式</h1><p>普通模式将保存您自行设置的密码，适用于保存你已经拥有的账号和密码。</p><h1>随机密码生成模式</h1><p>随机密码模式中你将不需要自己设置密码，应用会根据您的要求随机生成一个强密码。适合你新账号的密码设置和修改以前账号密码时的设置。注意，请保持本应用和您实际使用的密码的一致性。</p>");
 
             }
         });
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowInformationActivity.actionShowInformationActivity(MainActivity.this,"<h1>关于本应用</h1><p>本应用为应用开发者自用软件，旨在方便多帐号密码管理。</p><p>本应用不提供联网功能，开发者无法了解到您保存在本应用的一切信息。请牢记根密码，忘记跟密码您也会无法查看您保存在本应用上的一切信息</p><p>本应用不对使用者密码的安全性做出任何承诺</p><p>若使用者使用本应用产生损失，由使用者自行承担</p>");
+                ShowInformationActivity.actionShowInformationActivity(MainActivity.this,"<h1>关于</h1>\n" +
+                        "<p>应用版本：1.0.0</p>\n" +
+                        "<p>本应用开放源代码，访问https://github.com/yilihjy/PasswordManager查看源代码</p>\n" +
+                        "<p>Copyright yilihjy</p>\n" +
+                        "<p>Licensed under the Apache License, Version 2.0 (the \"License\");you may not use this file except in compliance with the License.You may obtain a copy of the License at</p>\n" +
+                        "<p>http://www.apache.org/licenses/LICENSE-2.0</p>\n" +
+                        "<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>\n" +
+                        "<h2>本应用使用的开源项目清单：</h2>\n" +
+                        "<p>项目：GridPasswordView</p>\n" +
+                        "<p>作者：Jungerr</p>\n" +
+                        "<p>协议：</p>\n" +
+                        "<p>Copyright 2015 jungly</p>\n" +
+                        "<p>Licensed under the Apache License, Version 2.0 (the \"License\");you may not use this file except in compliance with the License.You may obtain a copy of the License at</p>\n" +
+                        "<p>http://www.apache.org/licenses/LICENSE-2.0</p>\n" +
+                        "<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS,WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.See the License for the specific language governing permissions and limitations under the License.</p>\n" +
+                        "<p>项目地址：https://github.com/Jungerr/GridPasswordView</p>");
 
             }
         });
@@ -240,5 +273,12 @@ public static MainActivity instance=null;
                 Toast.makeText(MainActivity.this,"密码信息导出失败",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (mDrawerLayout.isDrawerOpen(findViewById(R.id.left_drawer)) ){
+            mDrawerLayout.closeDrawers();
+        }else super.onBackPressed();
     }
 }
