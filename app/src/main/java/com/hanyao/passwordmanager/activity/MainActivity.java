@@ -119,7 +119,7 @@ public static MainActivity instance=null;
             @Override
             public void onClick(View v) {
                 ShowInformationActivity.actionShowInformationActivity(MainActivity.this,"<h1>关于</h1>\n" +
-                        "<p>应用版本：1.0.0</p>\n" +
+                        "<p>应用版本：1.0.3</p>\n" +
                         "<p>本应用开放源代码，访问https://github.com/yilihjy/PasswordManager查看源代码</p>\n" +
                         "<p>Copyright yilihjy</p>\n" +
                         "<p>Licensed under the Apache License, Version 2.0 (the \"License\");you may not use this file except in compliance with the License.You may obtain a copy of the License at</p>\n" +
