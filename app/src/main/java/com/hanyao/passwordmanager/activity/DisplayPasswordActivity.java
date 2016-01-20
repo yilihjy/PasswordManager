@@ -4,8 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +22,6 @@ import com.hanyao.passwordmanager.R;
 public class DisplayPasswordActivity extends AppCompatActivity {
     public static DisplayPasswordActivity instance= null;
     private Toolbar toolbar;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
     private Password password;
     private String stringPassword;
     private TextView site ;
@@ -38,14 +33,13 @@ public class DisplayPasswordActivity extends AppCompatActivity {
     private TextView  answer2;
     private TextView question3 ;
     private TextView  answer3;
-    private Button copyButton ;
-    private Button modifyButton ;
-    private  Button deleteButton ;
+    private TextView copyButton ;
+    private TextView modifyButton ;
+    private  TextView deleteButton ;
     private TextView showQuestion;
 
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
         site = (TextView)findViewById(R.id.site_text_view);
         name = (TextView)findViewById(R.id.name_text_view);
         passwordString = (TextView)findViewById(R.id.password_text_view);
@@ -55,9 +49,9 @@ public class DisplayPasswordActivity extends AppCompatActivity {
         answer2= (TextView)findViewById(R.id.answer2_text_view);
         question3 = (TextView)findViewById(R.id.qusetion3_text_view);
         answer3= (TextView)findViewById(R.id.answer3_text_view);
-        copyButton = (Button)findViewById(R.id.copy_button);
-        modifyButton = (Button)findViewById(R.id.modify_button_in_display);
-        deleteButton = (Button)findViewById(R.id.delete_button);
+        copyButton = (TextView)findViewById(R.id.copy_button);
+        modifyButton = (TextView)findViewById(R.id.modify_button_in_display);
+        deleteButton = (TextView)findViewById(R.id.delete_button);
         showQuestion = (TextView)findViewById(R.id.show_question);
     }
 
@@ -153,27 +147,13 @@ public class DisplayPasswordActivity extends AppCompatActivity {
             showQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LinearLayout q1 = (LinearLayout)findViewById(R.id.question1_ly);
-                    LinearLayout q2 = (LinearLayout)findViewById(R.id.question2_ly);
-                    LinearLayout q3 = (LinearLayout)findViewById(R.id.question3_ly);
-                    LinearLayout a1 = (LinearLayout)findViewById(R.id.answer1_ly);
-                    LinearLayout a2 = (LinearLayout)findViewById(R.id.answer2_ly);
-                    LinearLayout a3 = (LinearLayout)findViewById(R.id.answer3_ly);
                     if(showQuestion.getText().equals(DisplayPasswordActivity.this.getString(R.string.show_question))){
-                        q1.setVisibility(View.VISIBLE);
-                        q2.setVisibility(View.VISIBLE);
-                        q3.setVisibility(View.VISIBLE);
-                        a1.setVisibility(View.VISIBLE);
-                        a2.setVisibility(View.VISIBLE);
-                        a3.setVisibility(View.VISIBLE);
+                        LinearLayout linearLayout =(LinearLayout)findViewById(R.id.show_linear_layout);
+                        linearLayout.setVisibility(View.VISIBLE);
                         showQuestion.setText(DisplayPasswordActivity.this.getString(R.string.hint_qusetion));
                     }else{
-                        q1.setVisibility(View.GONE);
-                        q2.setVisibility(View.GONE);
-                        q3.setVisibility(View.GONE);
-                        a1.setVisibility(View.GONE);
-                        a2.setVisibility(View.GONE);
-                        a3.setVisibility(View.GONE);
+                        LinearLayout linearLayout =(LinearLayout)findViewById(R.id.show_linear_layout);
+                        linearLayout.setVisibility(View.GONE);
                         showQuestion.setText(DisplayPasswordActivity.this.getString(R.string.show_question));
                     }
                 }

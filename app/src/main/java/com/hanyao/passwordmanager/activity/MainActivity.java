@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.hanyao.passwordmanager.bean.Password;
 import com.hanyao.passwordmanager.bean.PasswordList;
 import com.hanyao.passwordmanager.util.FileUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +51,7 @@ public static MainActivity instance=null;
         setContentView(R.layout.activity_main);
         instance=this;
         findViews();
+        toolbar.setLogo(R.mipmap.ic_launcher);
         toolbar.setTitle(this.getString(R.string.app_name));
         setSupportActionBar(toolbar);
         toolbar.setOnMenuItemClickListener(onMenuItemClick);
@@ -119,7 +122,7 @@ public static MainActivity instance=null;
             @Override
             public void onClick(View v) {
                 ShowInformationActivity.actionShowInformationActivity(MainActivity.this,"<h1>关于</h1>\n" +
-                        "<p>应用版本：1.0.3</p>\n" +
+                        "<p>应用版本：1.1.0</p>\n" +
                         "<p>本应用开放源代码，访问https://github.com/yilihjy/PasswordManager查看源代码</p>\n" +
                         "<p>Copyright yilihjy</p>\n" +
                         "<p>Licensed under the Apache License, Version 2.0 (the \"License\");you may not use this file except in compliance with the License.You may obtain a copy of the License at</p>\n" +
@@ -171,7 +174,7 @@ public static MainActivity instance=null;
     @Override
     protected void onStart(){
         super.onStart();
-        TextView textView = (TextView)findViewById(R.id.no_password_tip);
+        LinearLayout textView = (LinearLayout)findViewById(R.id.no_password_tip);
         textView.setVisibility(View.GONE);
         ListView listView = (ListView)findViewById(R.id.main_list_view);
         final PasswordPresenter passwordPresenter = new PasswordPresenter();
@@ -190,7 +193,7 @@ public static MainActivity instance=null;
             passwordListList.add(passwordList);
         }
         Collections.sort(passwordListList);
-        PasswordListAdapter passwordListAdapter = new PasswordListAdapter(MainActivity.this,R.layout.password_list_layout,passwordListList);
+        PasswordListAdapter passwordListAdapter = new PasswordListAdapter(MainActivity.this,R.layout.new_password_list_layout,passwordListList);
         listView.setAdapter(passwordListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -265,7 +268,7 @@ public static MainActivity instance=null;
                 if (android.os.Build.VERSION.SDK_INT ==  19){
                     Toast.makeText(MainActivity.this, "密码信息导出成功\n保存路径："+getApplicationContext().getFilesDir().getAbsolutePath()+"/passwords.xml", Toast.LENGTH_LONG).show();
                 }else{
-                    String path = Environment.getExternalStorageDirectory().getPath();
+                    String path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath()).getParent();
                     Toast.makeText(MainActivity.this, "密码信息导出成功\n保存路径："+path+"/passwords.xml", Toast.LENGTH_LONG).show();
                 }
 

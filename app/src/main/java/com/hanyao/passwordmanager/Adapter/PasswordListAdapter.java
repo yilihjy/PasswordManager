@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.hanyao.passwordmanager.MyApplication;
@@ -30,21 +29,28 @@ public class PasswordListAdapter extends ArrayAdapter<PasswordList> {
     public View getView(int position,View convertView,ViewGroup parent){
         final PasswordList passwordList = getItem(position);
         View view ;
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if(convertView==null){
             view = LayoutInflater.from(getContext()).inflate(resourceId, null);
             viewHolder = new ViewHolder();
-            viewHolder.site =(TextView)view.findViewById(R.id.site_item);
-            viewHolder.loginName= (TextView)view.findViewById(R.id.login_name_item);
-            viewHolder.copy = (Button)view.findViewById(R.id.copy_button_in_list);
+            viewHolder.newSite=(TextView)view.findViewById(R.id.new_site_item);
+            viewHolder.newLoginName=(TextView)view.findViewById(R.id.new_login_name_item);
+            viewHolder.loginPassword=(TextView)view.findViewById(R.id.login_password_item);
+            viewHolder.showPassword=(TextView)view.findViewById(R.id.show_password_item);
+            viewHolder.newCopy=(TextView)view.findViewById(R.id.new_copy_button_in_list);
             view.setTag(viewHolder);
         }else{
             view = convertView;
             viewHolder=(ViewHolder)view.getTag();
         }
-        viewHolder.site.setText(passwordList.getSite());
-        viewHolder.loginName.setText(passwordList.getLoginName());
-        viewHolder.copy.setOnClickListener(new View.OnClickListener() {
+        viewHolder.newSite.setText("站点/应用："+passwordList.getSite());
+        viewHolder.newLoginName.setText("登录名：" + passwordList.getLoginName());
+        StringBuilder stringBuilder= new StringBuilder();
+        for(int i=0;i<passwordList.getPasswordString().length();i++){
+            stringBuilder.append("*");
+        }
+         final String bforeShow = stringBuilder.toString();
+        viewHolder.newCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboardManager = (ClipboardManager) MyApplication.getContext().getSystemService(MyApplication.getContext().CLIPBOARD_SERVICE);
@@ -52,15 +58,35 @@ public class PasswordListAdapter extends ArrayAdapter<PasswordList> {
                 clipboardManager.setPrimaryClip(clipData);
                 PasswordPresenter passwordPresenter = new PasswordPresenter();
                 passwordPresenter.addSee(passwordList.getPassword());
-                Toast.makeText(MyApplication.getContext(),"密码已复制到剪贴板",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyApplication.getContext(), "密码已复制到剪贴板", Toast.LENGTH_SHORT).show();
             }
         });
+        viewHolder.loginPassword.setText("登录密码：" + bforeShow);
+        viewHolder.showPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (viewHolder.showPassword.getText().toString()) {
+                    case "显示密码": {
+                        viewHolder.loginPassword.setText("登录密码：" + passwordList.getPasswordString());
+                        viewHolder.showPassword.setText("隐藏密码");
+                    }
+                    break;
+                    case "隐藏密码": {
+                        viewHolder.loginPassword.setText("登录密码：" + bforeShow);
+                        viewHolder.showPassword.setText("显示密码");
+                    }break;
+                }
+            }
+        });
+
         return view;
     }
 
     class ViewHolder{
-        TextView site;
-        TextView loginName;
-        Button copy;
+        TextView newSite;
+        TextView newLoginName;
+        TextView loginPassword;
+        TextView showPassword;
+        TextView newCopy;
     }
 }

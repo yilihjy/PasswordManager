@@ -316,7 +316,8 @@ public class PasswordPresenter {
             FileUtil.saveFile("passwords.xml", output);
             return true;
         }else{
-            String path = Environment.getExternalStorageDirectory().getPath();
+            String path=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath()).getParent();
+
             FileUtil.saveFile(path,"passwords.xml", output);
             return true;
         }
